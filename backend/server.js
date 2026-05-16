@@ -6,14 +6,16 @@ require('dotenv').config();
 const Contact = require('./models/Contact');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+
+// Render ke liye default Port settings
+const PORT = process.env.PORT || 10000;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // Database Connection
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGO_URI) // Render ki settings mein humne MONGO_URI rakha tha
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.log('MongoDB connection error:', err));
 
@@ -43,12 +45,7 @@ app.post('/api/contact', async (req, res) => {
   }
 });
 
-// NAYA BADLAO: Sirf tabhi listen karein jab local machine par ho, Vercel khud handle karega
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-}
-
-// NAYA BADLAO: Isay export karna lazmi hai taake vercel.json ise pehchan sakay
-module.exports = app;
+// Render par chalne ke liye yeh listen command har haal mein chalna chahiye
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on port ${PORT}`);
+});
