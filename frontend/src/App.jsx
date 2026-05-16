@@ -39,8 +39,7 @@ function App() {
 
     try {
       // Vercel deployment ke liye localhost ka absolute URL hata kar relative path kar diya hai
-      const response = await axios.post('/api/contact', formData);
-
+      const response = await axios.post('https://contact-form-project-sb3a.onrender.com/api/contact', formData);
       setStatus({ type: 'success', message: response.data.message });
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {
